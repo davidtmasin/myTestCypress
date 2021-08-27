@@ -26,7 +26,7 @@ describe("Tickets", () => {
           .type("Vegeterian");
 
         cy.get("#signature")
-          .type(`${firtName} ${middleName} ${lastName}`);
+          .type(`${firstName} ${middleName} ${lastName}`);
     })
 
     //Selecionar um option
@@ -143,4 +143,6 @@ describe("Tickets", () => {
           .should("be.disabled"); //Verifica se o botão está desabilitado
         
     });
+
+  
 });
