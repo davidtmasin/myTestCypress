@@ -28,8 +28,14 @@ describe("Tickets", () => {
     })
 
     //Selecionar um option
-    it.only("select two tickets", () => {
+    it("select two tickets", () => {
         cy.get("#ticket-quantity").select("2");
+    });
+
+    //Selecionar um ratio button
+    it.only("select VIP ticket type", () => {
+        cy.get("#vip")
+        .check(); //esta funcionalidade é útil para poder marcar um ratio button
     });
 
     it("has 'TICKETBOX' header's heading", () => {});
