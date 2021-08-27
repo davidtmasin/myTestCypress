@@ -7,14 +7,14 @@ describe("Tickets", () => {
     //O termo only é para teste de unidade, para poder testar somente um único teste
     
     it("fills all the text input fields", () => {
-        const firtName = "David";
-        const middleName = "Teixeira de"
+        const firstName = "David";
+        const middleName = "Teixeira de";
         const lastName = "Masin";
 
         //Preenchendo os campos input
         //O comando .get identifica através dos seletores CSS
         cy.get("#first-name")
-          .type(firtName); //Add dados textuais
+          .type(firstName); //Add dados textuais
 
         cy.get("#last-name")
           .type(lastName);
@@ -62,8 +62,8 @@ describe("Tickets", () => {
     });
 
     //Criando uma ASSERTION que digita um email inválido e redigita-o.
-    //Verifica se uma dada classe existe ou não na DOM
-    it.only("alerts on invalid email", () => {
+    //Verifica se uma dada classe existe ou não na DOM.
+    it("alerts on invalid email", () => {
         cy.get("#email")
           .as("email") //criando um alias [apelido]
           .type("davidteixeira.info-gmail.com");
@@ -77,5 +77,49 @@ describe("Tickets", () => {
 
         cy.get("#email.invalid")
           .should("not.exist"); //Vai checar se a classe invalid não existe
+    });
+
+    //Criando uma verificação completa
+    //Preencher tudo e depois resetar o form
+    it.only("fills and reset before", () => {
+        const firstName = "David";
+        const middleName = "Teixeira de";
+        const lastName = "Masin";
+        const fullName = `${firstName} ${middleName} ${lastName}`; 
+
+        //Preenchimento do Nome
+        cy.get("#first-name")
+          .type(`${firstName}`);
+        
+        cy.get("#last-name")
+          .type(`${middleName} ${lastName}`);
+
+        //Preenchimento do E-mail
+        cy.get("#email")
+          .type("davidteixeira.info@gmail.com");
+
+        //Escolha da quantidade de tickets
+        cy.get("#ticket-quantity")
+          .select("2")
+
+        //Escolha do tipo de Ticket
+        cy.get("#vip")
+          .check();
+
+        //Escolha de onde ouviu sobre o evento
+        cy.get("#friend")
+          .check();
+
+        //Digitando sobre a requisição especial
+        cy.get("#requests")
+          .type("Suco de laranja bem gelado");
+
+        //Verificando se o nome que digito aparece lá em Purchase Agreement
+        cy.get(".agreement > fieldset p")
+          .should(
+            "contain",
+            `I, ${fullName}, wish to buy 2 VIP tickets.`
+          );
+
     });
 });
