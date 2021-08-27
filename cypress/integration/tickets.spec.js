@@ -81,7 +81,7 @@ describe("Tickets", () => {
 
     //Criando uma verificação completa
     //Preencher tudo e depois resetar o form
-    it.only("fills and reset before", () => {
+    it.only("fills and reset the form", () => {
         const firstName = "David";
         const middleName = "Teixeira de";
         const lastName = "Masin";
