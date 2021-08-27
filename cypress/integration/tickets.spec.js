@@ -14,45 +14,68 @@ describe("Tickets", () => {
         //Preenchendo os campos input
         //O comando .get identifica através dos seletores CSS
         cy.get("#first-name")
-        .type(firtName); //Add dados textuais
+          .type(firtName); //Add dados textuais
 
         cy.get("#last-name")
-        .type(lastName);
+          .type(lastName);
 
         cy.get("#email")
-        .type("davidteixeira.info@gmail.com");
+          .type("davidteixeira.info@gmail.com");
 
         cy.get("#requests")
-        .type("Vegeterian");
+          .type("Vegeterian");
 
         cy.get("#signature")
-        .type(`${firtName} ${middleName} ${lastName}`);
+          .type(`${firtName} ${middleName} ${lastName}`);
     })
 
     //Selecionar um option
     it("select two tickets", () => {
-        cy.get("#ticket-quantity").select("2");
+        cy.get("#ticket-quantity")
+          .select("2");
     });
 
     //Selecionar um ratio button
     it("select VIP ticket type", () => {
         cy.get("#vip")
-        .check(); //esta funcionalidade é útil para poder marcar um ratio button
+          .check(); //esta funcionalidade é útil para poder marcar um ratio button
     });
 
     //Interagindo com checkboxes
     it("selects 'social media' checkbox", () => {
         cy.get("#social-media")
-        .check();
+          .check();
     });
-    it.only("selects 'friend', and 'publication', then unckeck 'friend'", () => {
+    it("selects 'friend', and 'publication', then unckeck 'friend'", () => {
         cy.get("#friend")
-        .check();
+          .check();
         cy.get("#publication")
-        .check();
+          .check();
         cy.get("#friend")
-        .uncheck();
+          .uncheck();
     });
 
-    it("has 'TICKETBOX' header's heading", () => {});
+    //Criando uma ASSERTION com o uso do should
+    it("has 'TICKETBOX' header's heading", () => {
+        cy.get("header h1")
+          .should("contain", "TICKETBOX"); //Vai checar se o header contém o texto TICKETBOX
+    });
+
+    //Criando uma ASSERTION que digita um email inválido e redigita-o.
+    //Verifica se uma dada classe existe ou não na DOM
+    it.only("alerts on invalid email", () => {
+        cy.get("#email")
+          .as("email") //criando um alias [apelido]
+          .type("davidteixeira.info-gmail.com");
+
+        cy.get("#email.invalid")
+          .should("exist"); //Vai checar se a classe invalid existe
+
+        cy.get("@email") //Usa-se o '@' para referenciar um alias
+          .clear() //limpa o que foi digitado no input
+          .type("davidteixeira@gmail.com");
+
+        cy.get("#email.invalid")
+          .should("not.exist"); //Vai checar se a classe invalid não existe
+    });
 });
