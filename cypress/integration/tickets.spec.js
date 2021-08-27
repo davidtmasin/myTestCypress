@@ -121,5 +121,26 @@ describe("Tickets", () => {
             `I, ${fullName}, wish to buy 2 VIP tickets.`
           );
 
+        //Escolhendo o checkbox - I agree
+        cy.get("#agree")
+          .click(); //função do clique do mouse, similar ao check()
+
+        //Digitando a assinatura
+        cy.get("#signature")
+          .type(`${fullName}`);
+
+        //Verificar se o botão do 'Confirm Ticket' está habilitado
+        cy.get("button[type='submit']")
+          .as("submitButton")
+          .should("not.be.disabled"); //Verifica se o botão não está desabilitado
+
+        //Clicando no botão 'Reset'
+        cy.get("button[type='reset']")
+          .click();
+
+        //Verificar se o botão 'Confirm Ticket' está desabilitado após o clique no 'Reset'
+        cy.get("@submitButton")
+          .should("be.disabled"); //Verifica se o botão está desabilitado
+        
     });
 });
